@@ -31,14 +31,11 @@
 import oss2
 import os
 import time
-def upload_oss_file(key):
+def upload_oss_file():
     endpoint = 'http://oss-cn-beijing.aliyuncs.com'
  
     auth = oss2.Auth('LTAI4GJq5fpr5LfUggyDLFDc', 'bTCHF7tSboJUfcZsXxWeHkP3sz64yS')
     bucket = oss2.Bucket(auth, endpoint, 'picture-fashion')
-    current_fold = time.strftime('%Y-%m-%d',time.localtime())
-    current_file_path = 'yourObjectName'+key
-    file_path = '你的项目路径'+key
     directory = r'/Users/akirachang/Desktop/175990_396802_bundle_archive/images/'
     index = 0
     for entry in os.scandir(directory):
@@ -47,5 +44,4 @@ def upload_oss_file(key):
             bucket.put_object_from_file(entry.name, entry.path)
             index+=1
     # 上传
-key = '/Users/akirachang/Desktop/coding/Python/fashion-forecast/pyimagesearch/images/clothes/tshirt.jpeg'
-upload_oss_file(key)
+upload_oss_file()
