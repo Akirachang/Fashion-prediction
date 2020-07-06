@@ -7,7 +7,7 @@ def imageConvert(str):
     print(type(im))
     str = str.replace('.jpeg','')
     str = str.replace('.png','')
-    gr_im= Image.fromarray(im).save('1.png')
+    gr_im= Image.fromarray(im).save('pyimagesearch/images/clothes/1.png')
 
     img = cv2.imread('1.png', cv2.IMREAD_UNCHANGED)
     
