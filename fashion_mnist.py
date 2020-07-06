@@ -33,17 +33,18 @@ print("[INFO] loading Fashion MNIST...")
 # 	num_samples x depth x rows x columns
 print(trainX)
 print(type(trainX))
+print(testX)
+
 print(trainX.shape)
 # trainX = imageTests()
 # f = open("test.txt", "a")
 # for i in range(28):
 # 	for j in range(28):
 # 		print(trainX[i][j])
-		
 
 if K.image_data_format() == "channels_first":
 	trainX = trainX.reshape((trainX.shape[0], 1, 28, 28))
-	testX = testX.reshape((testX.shape[0], 1, 28, 28))
+	testX = testX.reshape((testX.shape[0], 1, 28, 28)) 
  
 # otherwise, we are using "channels last" ordering, so the design
 # matrix shape should be: num_samples x rows x columns x depth
