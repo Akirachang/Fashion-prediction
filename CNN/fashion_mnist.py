@@ -76,16 +76,7 @@ testY = to_categorical(testY, 10)
 
 # initialize the label names
 labelNames = ["top", "trouser", "pullover", "dress", "coat",
-	"sandal", "shirt", "sneaker", "bag", "ankle boot", 'Shirts', 
-	'Jeans', 'Track Pants', 'Tshirts', 'Tops', 'Bra', 'Sweatshirts', 
-	'Kurtas', 'Waistcoat', 'Shorts', 'Briefs', 'Sarees', 'Innerwear Vests', 
-	'Rain Jacket', 'Dresses', 'Night suits', 'Skirts', 'Blazers', 'Kurta Sets', 
-	'Shrug', 'Trousers', 'Camisoles', 'Boxers', 'Dupatta', 'Capris', 'Bath Robe', 
-	'Tunics', 'Jackets', 'Trunk', 'Lounge Pants', 'Sweaters', 'Tracksuits', 'Swimwear', 
-	'Nightdress', 'Baby Dolls', 'Leggings', 'Kurtis', 'Jumpsuit', 'Suspenders', 'Robe', 
-	'Salwar and Dupatta', 'Patiala', 'Stockings', 'Tights', 'Churidar', 'Lounge Tshirts', 
-	'Lounge Shorts', 'Shapewear', 'Nehru Jackets', 'Salwar', 'Jeggings', 'Rompers', 'Booties', 
-	'Lehenga Choli', 'Clothing Set', 'Belts', 'Rain Trousers', 'Suits']
+	"sandal", "shirt", "sneaker", "bag", "ankle boot"]
 
 # initialize the optimizer and model
 print("[INFO] compiling model...")

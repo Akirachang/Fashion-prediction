@@ -1,0 +1,1 @@
+python3 bing_scraper.py --search '日系服饰' --limit 10 --download --chromedriver /Users/akirachang/Downloads/chromedriver
