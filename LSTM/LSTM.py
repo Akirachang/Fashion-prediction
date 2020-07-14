@@ -31,34 +31,43 @@ def load_csv():
     return read_csv
 
 
-def extract(csv, city, feature, child_feature, time=[2013, 2015]):
+def extract(csv, city, feature, child_feature, time=[2009, 2019]):
     res = {}
     city_id = dict_place[city]
     s_time = time[0]
     e_time = time[1]
     for index in csv.loc[(csv['year'] <= e_time) & (csv['year'] >= s_time) & (csv[feature] == child_feature)].index:
-        if city_id > 44 or city_id == csv.loc[index, 'city_id']:
-            year = csv.loc[index, 'year']
-            month = csv.loc[index, 'month']
+        # if city_id > 44 or city_id == csv.loc[index, 'city_id']:
+        if city_id > 44:
+            year = int(csv.loc[index, 'year'])
+            # month = csv.loc[index, 'month']
             if year not in res:
-                res[year] = {}
+                res[year] = 1
             else:
-                if month not in res[year]:
-                    res[year][month] = 1
-                else:
-                    res[year][month] += 1
+                res[year] += 1
+            # else:
+            #     if month not in res[year]:
+            #         res[year][month] = 1
+            #     else:
+            #         res[year][month] += 1
     print(res)
     return res
 
 
-def LS(train_data, train_time=[2013, 2015], test_time=[2015, 2015]):
+def LS(train_data, train_model, train_time=[2013, 2015], test_time=[2015, 2015]):
     all_list = []
+
     for i in range(train_time[1] - train_time[0] + 1):
-        for month in range(1, 13):
-            if month in train_data[train_time[0] + i]:
-                all_list.append(train_data[train_time[0] + i][month])
+        if train_model == 'month_model':
+            for month in range(1, 13):
+                if month in train_data[train_time[0] + i]:
+                    all_list.append(train_data[train_time[0] + i][month])
+        elif train_model == 'year_model':
+            all_list.append(train_data[train_time[0] + i])
+
+
     all_list = np.array(all_list)
-    all_list = all_list.reshape(len(all_list),1)
+    all_list = all_list.reshape(len(all_list), 1)
 
     all_list = all_list.astype('float32')
     scaler = MinMaxScaler(feature_range=(0, 1))
@@ -76,26 +85,41 @@ def LS(train_data, train_time=[2013, 2015], test_time=[2015, 2015]):
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(trainX, trainY, epochs=50, batch_size=1, verbose=2)
 
-    for i in range(12):
-        tmp = (trainX[-1] + trainX[-2] + trainX[-13] + trainX[-14]) / 4
+    for i in range(2):
+        # tmp = (trainX[-1] + trainX[-2] + trainX[-13] + trainX[-14]) / 4
+        tmp = (trainX[-1] + trainX[-2]) / 2
         trainX = np.append(trainX, np.expand_dims(tmp, 0))
         trainX = trainX.reshape((len(trainX), 1, 1))
-    print(trainX)
+    # print(trainX)
     trainPredict = model.predict(trainX)
     trainPredict = scaler.inverse_transform(trainPredict)
     trainY = scaler.inverse_transform(trainY)
 
-    plt.plot(trainY)
-    plt.plot(trainPredict[1:])
+
+    x_value = []
+    if train_model == 'month_model':
+        plt.xlabel('month')
+        """
+            convert vector
+        """
+    elif train_model == 'year_model':
+        plt.xlabel('year')
+        # x_value = train_time + [train_time[-1]+1]
+        """
+            convert vector
+        """
+    plt.ylabel('count')
+    plt.plot(trainY)    # correct results
+    plt.plot(trainPredict[1:])  # predicted results
     plt.show()
 
 
 def entrance():
     model = 'LSTM'
     csv = load_csv()
-    train_data = extract(csv, 'world-wide', 'major_color', 'Red')
+    train_data = extract(csv, 'world-wide', 'major_type', 'Bra', time=[2009, 2019])
     if model == 'LSTM':
-        LS(train_data)
+        LS(train_data, 'year_model', train_time=[2011, 2018])
 
 
 if __name__ == '__main__':
