@@ -4,7 +4,7 @@ BASE_URL = 'https://app.nanonets.com/api/v2/ImageCategorization/'
 AUTH_KEY = os.environ.get('NANONETS_API_KEY')
 url = BASE_URL + "Model/"
 
-categories = ["glasses","Tshirt", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle_Boot"]
+categories = ["Tshirt", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle_Boot"]
 ext = ['.jpeg', '.jpg', ".JPG", ".JPEG"]
 
 data = {'categories' : categories}
