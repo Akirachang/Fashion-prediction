@@ -28,7 +28,11 @@ def get_picture():
             tmp_line['year'] = load_csv.loc[row, 'year']
             tmp_line['major_type'] = load_csv.loc[row, 'articleType']
             tmp_line['major_color'] = load_csv.loc[row, 'baseColour']
-            # tmp_line['style'] = get_feature('f6ea04d4-f904-46cd-976e-825cada0f2cc', img_path)
+            try:
+                tmp_line['style'] = get_feature('30bc8f97-7fac-4567-a287-b64acb990792', img_path)
+            except:
+                print('an error occured!')
+            print("saved!")
         df = df.append(tmp_line, ignore_index=True)
         print(count)
         count += 1
