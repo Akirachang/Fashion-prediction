@@ -6,7 +6,6 @@ from keras.layers import LSTM
 from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 
-
 def create_dataset(dataset, look_back):
     dataX, dataY = [], []
     for i in range(len(dataset)-look_back-1):
@@ -118,23 +117,22 @@ def country_csv_write(country_output):
     df.to_csv('csv/fashion_statistic.csv')
 
 
-def entrance():
+def entrance(majorType, majorColor):
     model = 'LSTM'
     csv = load_csv()
-    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+    countries = ['China', 'Thailand', 'America', 'Japan', 'Korea', 'Singapore', 'France', 'Germany',
                 'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
         country_output = []
         for country in countries:
             country_dict = {}
-            train_data = extract(csv, 2, ['major_type', 'major_color'], ['Shirts', 'Black'], country, time=[2009, 2018])
+            train_data = extract(csv, 2, ['major_type', 'major_color'], [majorType, majorColor], country, time=[2009, 2018])
             res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
             country_dict['State'] = country
             country_dict['Unemployment'] = res_predict
             country_output.append(country_dict)
         country_csv_write(country_output)
 
-
-if __name__ == '__main__':
-    entrance()
+# if __name__ == '__main__':
+#     entrance(majorType, majorColor)
 

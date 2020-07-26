@@ -1,5 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 # from lstm.lstm import *
+from predict import *
+import os
 
 
 
@@ -20,6 +22,7 @@ def login():
         print("风格："+style)
         #对接
         entrance(types, color)
+        os.command("")
         return render_template("#292_folium_chloropleth_USA1.html")
     else:
         return render_template("login.html")
