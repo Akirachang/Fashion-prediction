@@ -1,8 +1,9 @@
 from flask import Flask, redirect, url_for, render_template, request
 # from lstm.lstm import *
 from predict import *
+from worldMap.worldMap import genMap
 import os
-
+import time
 
 
 app = Flask(__name__)
@@ -22,7 +23,8 @@ def login():
         print("风格："+style)
         #对接
         entrance(types, color)
-        os.command("")
+        genMap()
+        time.sleep(10)
         return render_template("#292_folium_chloropleth_USA1.html")
     else:
         return render_template("login.html")
