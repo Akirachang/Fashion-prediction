@@ -9,17 +9,21 @@ columns = ['id', 'gender', 'year', 'major_type', 'major_color', 'style']
 def get_feature(modelId, img_path):
     data = {'file': open(img_path, 'rb'),
             'modelId': ('', modelId)}
-    response = requests.post(url, auth=requests.auth.HTTPBasicAuth('D3_uJ_5iETUH3pO5pUid0ZkZdF24Iaa5', ''), files=data)
-    return response.json()['result'][0]['prediction'][0]['label']
-
+    response = requests.post(url, auth=requests.auth.HTTPBasicAuth('D3_uJ_5iETUH3pO5pUid0ZkZdF24Iaa5', ''), files=data,
+                             timeout=20)
+    try:
+        return response.json()['result'][0]['prediction'][0]['label']
+    except:
+        print('error!')
+        None
 
 def get_picture():
     df = pd.DataFrame(columns=columns)
     path = 'images/'
     dirs = os.listdir(path)
-    count = 0
-    file = open('37000-40000.txt', 'w')#1
-    for row in range(34000, 37000):#2
+    count = 22500
+    file = open('only_style.txt', 'w')
+    for row in range(count, count + 500):
         tmp_line = {}
         img = str(load_csv.loc[row, 'id']) + '.jpg'
         if img in dirs:

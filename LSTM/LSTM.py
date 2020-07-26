@@ -7,54 +7,48 @@ from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 
 
-
-dict_place = {'Bangkok': 1, 'Beijing': 2, 'Bogota': 3, 'Buenos Aires': 4, 'Cairo': 5, 'Delhi': 6, 'Dhaka': 7,
-              'Guangzhou': 8, 'Istanbul': 9, 'Jakarta': 10, 'Karachi': 11, 'Kolkata': 12, 'Lagos': 13, 'London': 14,
-              'Los Angeles': 15, 'Manila': 16, 'Mexico City': 17, 'Mumbai': 18, 'New York': 19, 'Osaka': 20, 'Rio de Janeiro': 21,
-              'Sao Paulo': 22, 'Seoul': 23, 'Shanghai': 24, 'Tianjin': 25, 'Tokyo': 26, 'Paris': 27, 'Berlin': 28,
-              'Madrid': 29, 'Kiev': 30, 'Rome': 31, 'Budapest': 32, 'Milan': 33, 'Sofia': 34, 'Nairobi': 35,
-              'Sydney': 36, 'Moscow': 37, 'Johannesburg': 38, 'Toronto': 39, 'Vancouver': 40, 'Chicago': 41, 'Austin': 42,
-              'Seattle': 43, 'Singapore': 44, 'world-wide': 45}
-
-
 def create_dataset(dataset, look_back):
     dataX, dataY = [], []
     for i in range(len(dataset)-look_back-1):
         a = dataset[i:(i+look_back)]
         dataX.append(a)
         dataY.append(dataset[i + look_back])
-    return np.array(dataX),np.array(dataY)
+    return np.array(dataX), np.array(dataY)
 
 
 def load_csv():
-    read_csv = pd.read_csv('df.csv')
+    read_csv = pd.read_csv('csv/df.csv', encoding='gbk')
     return read_csv
 
 
-def extract(csv, city, feature, child_feature, time=[2009, 2019]):
+def extract(csv, index, feature, child_feature, country, time=[2009, 2018]):
     res = {}
-    city_id = dict_place[city]
     s_time = time[0]
     e_time = time[1]
-    for index in csv.loc[(csv['year'] <= e_time) & (csv['year'] >= s_time) & (csv[feature] == child_feature)].index:
-        # if city_id > 44 or city_id == csv.loc[index, 'city_id']:
-        if city_id > 44:
-            year = int(csv.loc[index, 'year'])
-            # month = csv.loc[index, 'month']
-            if year not in res:
-                res[year] = 1
-            else:
+    for i in range(s_time, e_time+1):
+        res[i] = 0
+    if index == 1:
+        for index in csv.loc[(csv['year'] <= e_time) & (csv['year'] >= s_time) & (csv[feature[0]] == child_feature[0])].index:
+            if country == csv.loc[index, 'country']:
+                year = int(csv.loc[index, 'year'])
                 res[year] += 1
-            # else:
-            #     if month not in res[year]:
-            #         res[year][month] = 1
-            #     else:
-            #         res[year][month] += 1
+    elif index == 2:
+        for index in csv.loc[(csv['year'] <= e_time) & (csv['year'] >= s_time) & (csv[feature[0]] == child_feature[0]) &
+                            (csv[feature[1]] == child_feature[1])].index:
+            if country == csv.loc[index, 'country']:
+                year = int(csv.loc[index, 'year'])
+                res[year] += 1
+    elif index == 3:
+        for index in csv.loc[(csv['year'] <= e_time) & (csv['year'] >= s_time) & (csv[feature[0]] == child_feature[0]) &
+                            (csv[feature[1]] == child_feature[1]) & (csv[feature[2]] == child_feature[2])].index:
+            if country == csv.loc[index, 'country']:
+                year = int(csv.loc[index, 'year'])
+                res[year] += 1
     print(res)
     return res
 
 
-def LS(train_data, train_model, train_time=[2013, 2015], test_time=[2015, 2015]):
+def LS(train_data, train_model, train_time=[2009, 2019]):
     all_list = []
 
     for i in range(train_time[1] - train_time[0] + 1):
@@ -63,8 +57,10 @@ def LS(train_data, train_model, train_time=[2013, 2015], test_time=[2015, 2015])
                 if month in train_data[train_time[0] + i]:
                     all_list.append(train_data[train_time[0] + i][month])
         elif train_model == 'year_model':
-            all_list.append(train_data[train_time[0] + i])
-
+            try:
+                all_list.append(train_data[train_time[0] + i])
+            except KeyError:
+                all_list.append(0)
 
     all_list = np.array(all_list)
     all_list = all_list.reshape(len(all_list), 1)
@@ -85,12 +81,10 @@ def LS(train_data, train_model, train_time=[2013, 2015], test_time=[2015, 2015])
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(trainX, trainY, epochs=50, batch_size=1, verbose=2)
 
-    for i in range(2):
-        # tmp = (trainX[-1] + trainX[-2] + trainX[-13] + trainX[-14]) / 4
+    for i in range(1):
         tmp = (trainX[-1] + trainX[-2]) / 2
         trainX = np.append(trainX, np.expand_dims(tmp, 0))
         trainX = trainX.reshape((len(trainX), 1, 1))
-    # print(trainX)
     trainPredict = model.predict(trainX)
     trainPredict = scaler.inverse_transform(trainPredict)
     trainY = scaler.inverse_transform(trainY)
@@ -105,21 +99,40 @@ def LS(train_data, train_model, train_time=[2013, 2015], test_time=[2015, 2015])
     elif train_model == 'year_model':
         plt.xlabel('year')
         # x_value = train_time + [train_time[-1]+1]
-        """
-            convert vector
-        """
-    plt.ylabel('count')
-    plt.plot(trainY)    # correct results
-    plt.plot(trainPredict[1:])  # predicted results
-    plt.show()
+    """
+    draw pic
+    """
+    # plt.ylabel('count')
+    # plt.plot(trainY)    # correct results
+    # plt.plot(trainPredict[1:])  # predicted results
+    # plt.show()
+
+    return int(trainPredict.tolist()[-1][0])  # return predict result
+
+
+def country_csv_write(country_output):
+    df = pd.DataFrame(columns=['State', 'Unemployment'])
+    for line in country_output:
+        print(line)
+        df = df.append(line, ignore_index=True)
+    df.to_csv('csv/fashion_statistic.csv')
 
 
 def entrance():
     model = 'LSTM'
     csv = load_csv()
-    train_data = extract(csv, 'world-wide', 'major_type', 'Bra', time=[2009, 2019])
+    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+                'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
-        LS(train_data, 'year_model', train_time=[2011, 2018])
+        country_output = []
+        for country in countries:
+            country_dict = {}
+            train_data = extract(csv, 2, ['major_type', 'major_color'], ['Shirts', 'Black'], country, time=[2009, 2018])
+            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+            country_dict['State'] = country
+            country_dict['Unemployment'] = res_predict
+            country_output.append(country_dict)
+        country_csv_write(country_output)
 
 
 if __name__ == '__main__':
