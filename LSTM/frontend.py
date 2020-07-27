@@ -22,7 +22,15 @@ def login():
         print("款式："+types)
         print("风格："+style)
         #对接
-        entrance(types, color)
+        if style == "":
+            entrance(types, color)
+        elif color == "":
+            entrance_2(types, style)
+        elif types == "":
+            entrance_3(color, style)
+        else:
+            entrance_4(color, types, style)
+
         genMap()
         time.sleep(10)
         return render_template("#292_folium_chloropleth_USA1.html")

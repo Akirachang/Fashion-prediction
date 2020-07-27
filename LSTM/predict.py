@@ -120,7 +120,7 @@ def country_csv_write(country_output):
 def entrance(majorType, majorColor):
     model = 'LSTM'
     csv = load_csv()
-    countries = ['China', 'Thailand', 'America', 'Japan', 'Korea', 'Singapore', 'France', 'Germany',
+    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
                 'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
         country_output = []
@@ -133,6 +133,54 @@ def entrance(majorType, majorColor):
             country_output.append(country_dict)
         country_csv_write(country_output)
 
+def entrance_2(majorType, style):
+    model = 'LSTM'
+    csv = load_csv()
+    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+                'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
+    if model == 'LSTM':
+        country_output = []
+        for country in countries:
+            country_dict = {}
+            train_data = extract(csv, 2, ['major_type', 'style'], [majorType, style], country, time=[2009, 2018])
+            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+            country_dict['State'] = country
+            country_dict['Unemployment'] = res_predict
+            country_output.append(country_dict)
+        country_csv_write(country_output)
+
+def entrance_3(majorColor, style):
+    model = 'LSTM'
+    csv = load_csv()
+    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+                'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
+    if model == 'LSTM':
+        country_output = []
+        for country in countries:
+            country_dict = {}
+            train_data = extract(csv, 2, ['major_color', 'style'], [majorColor, style], country, time=[2009, 2018])
+            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+            country_dict['State'] = country
+            country_dict['Unemployment'] = res_predict
+            country_output.append(country_dict)
+        country_csv_write(country_output)
+    
+def entrance_4(majorColor, majorType ,style):
+    model = 'LSTM'
+    csv = load_csv()
+    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+                'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
+    if model == 'LSTM':
+        country_output = []
+        for country in countries:
+            country_dict = {}
+            train_data = extract(csv, 3, ['major_color', 'major_type','style'], [majorColor, majorType, style], country, time=[2009, 2018])
+            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+            country_dict['State'] = country
+            country_dict['Unemployment'] = res_predict
+            country_output.append(country_dict)
+        country_csv_write(country_output)
+    
 # if __name__ == '__main__':
 #     entrance(majorType, majorColor)
 
