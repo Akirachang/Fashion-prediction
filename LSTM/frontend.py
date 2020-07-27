@@ -30,7 +30,6 @@ def login():
             entrance_3(color, style)
         else:
             entrance_4(color, types, style)
-
         genMap()
         time.sleep(10)
         return render_template("#292_folium_chloropleth_USA1.html")

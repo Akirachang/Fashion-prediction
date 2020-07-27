@@ -120,65 +120,93 @@ def country_csv_write(country_output):
 def entrance(majorType, majorColor):
     model = 'LSTM'
     csv = load_csv()
-    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+    countries = ['Afghanistan','Angola','Albania','United Arab Emirates','Argentina','Armenia','Antarctica','French Southern and Antarctic Lands','Australia','Austria','Azerbaijan','Burundi','Belgium','Benin','Burkina Faso','Bangladesh','Bulgaria','The Bahamas','Bosnia and Herzegovina','Belarus','Belize','Bolivia','Brazil','Brunei','Bhutan','Botswana','Central African Republic','Canada','Switzerland','Chile','China','Ivory Coast','Cameroon','Democratic Republic of the Congo','Republic of the Congo','Colombia','Costa Rica','Cuba','Northern Cyprus','Cyprus','Czech Republic','Germany','Djibouti','Denmark','Dominican Republic','Algeria','Ecuador','Egypt','Eritrea','Spain','Estonia','Ethiopia','Finland','Fiji','Falkland Islands','France','Gabon','United Kingdom','Georgia','Ghana','Guinea','Gambia','Guinea Bissau','Equatorial Guinea','Greece','Greenland','Guatemala','Guyana','Honduras','Croatia','Haiti','Hungary','Indonesia','India','Ireland','Iran','Iraq','Iceland','Israel','Italy','Jamaica','Jordan','Japan','Kazakhstan','Kenya','Kyrgyzstan','Cambodia','South Korea','Kosovo','Kuwait','Laos','Lebanon','Liberia','Libya','Sri Lanka','Lesotho','Lithuania','Luxembourg','Latvia','Morocco','Moldova','Madagascar','Mexico','Macedonia','Mali','Myanmar','Montenegro','Mongolia','Mozambique','Mauritania','Malawi','Malaysia','Namibia','New Caledonia','Niger','Nigeria','Nicaragua','Netherlands','Norway','Nepal','New Zealand','Oman','Pakistan','Panama','Peru','Philippines','Papua New Guinea','Poland','Puerto Rico','North Korea','Portugal','Paraguay','Qatar','Romania','Russia','Rwanda','Western Sahara','Saudi Arabia','Sudan','South Sudan','Senegal','Solomon Islands','Sierra Leone','El Salvador','Somaliland','Somalia','Republic of Serbia','Suriname','Slovakia','Slovenia','Sweden','Swaziland','Syria','Chad','Togo','Thailand','Tajikistan','Turkmenistan','East Timor','Trinidad and Tobago','Tunisia','Turkey','Taiwan','United Republic of Tanzania','Uganda','Ukraine','Uruguay','United States of America','Uzbekistan','Venezuela','Vietnam','Vanuatu','West Bank','Yemen','South Africa','Zambia','Zimbabwe']
+    main_countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
                 'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
         country_output = []
         for country in countries:
-            country_dict = {}
-            train_data = extract(csv, 2, ['major_type', 'major_color'], [majorType, majorColor], country, time=[2009, 2018])
-            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
-            country_dict['State'] = country
-            country_dict['Unemployment'] = res_predict
-            country_output.append(country_dict)
+            if country in main_countries: 
+                country_dict = {}
+                train_data = extract(csv, 2, ['major_type', 'major_color'], [majorType, majorColor], country, time=[2009, 2018])
+                res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+                country_dict['State'] = country
+                country_dict['Unemployment'] = res_predict
+                country_output.append(country_dict)
+            else:
+                country_dict = {}
+                country_dict['State'] = country
+                country_dict['Unemployment'] = 0
+                country_output.append(country_dict)
         country_csv_write(country_output)
 
 def entrance_2(majorType, style):
     model = 'LSTM'
     csv = load_csv()
-    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+    countries = ['Afghanistan','Angola','Albania','United Arab Emirates','Argentina','Armenia','Antarctica','French Southern and Antarctic Lands','Australia','Austria','Azerbaijan','Burundi','Belgium','Benin','Burkina Faso','Bangladesh','Bulgaria','The Bahamas','Bosnia and Herzegovina','Belarus','Belize','Bolivia','Brazil','Brunei','Bhutan','Botswana','Central African Republic','Canada','Switzerland','Chile','China','Ivory Coast','Cameroon','Democratic Republic of the Congo','Republic of the Congo','Colombia','Costa Rica','Cuba','Northern Cyprus','Cyprus','Czech Republic','Germany','Djibouti','Denmark','Dominican Republic','Algeria','Ecuador','Egypt','Eritrea','Spain','Estonia','Ethiopia','Finland','Fiji','Falkland Islands','France','Gabon','United Kingdom','Georgia','Ghana','Guinea','Gambia','Guinea Bissau','Equatorial Guinea','Greece','Greenland','Guatemala','Guyana','Honduras','Croatia','Haiti','Hungary','Indonesia','India','Ireland','Iran','Iraq','Iceland','Israel','Italy','Jamaica','Jordan','Japan','Kazakhstan','Kenya','Kyrgyzstan','Cambodia','South Korea','Kosovo','Kuwait','Laos','Lebanon','Liberia','Libya','Sri Lanka','Lesotho','Lithuania','Luxembourg','Latvia','Morocco','Moldova','Madagascar','Mexico','Macedonia','Mali','Myanmar','Montenegro','Mongolia','Mozambique','Mauritania','Malawi','Malaysia','Namibia','New Caledonia','Niger','Nigeria','Nicaragua','Netherlands','Norway','Nepal','New Zealand','Oman','Pakistan','Panama','Peru','Philippines','Papua New Guinea','Poland','Puerto Rico','North Korea','Portugal','Paraguay','Qatar','Romania','Russia','Rwanda','Western Sahara','Saudi Arabia','Sudan','South Sudan','Senegal','Solomon Islands','Sierra Leone','El Salvador','Somaliland','Somalia','Republic of Serbia','Suriname','Slovakia','Slovenia','Sweden','Swaziland','Syria','Chad','Togo','Thailand','Tajikistan','Turkmenistan','East Timor','Trinidad and Tobago','Tunisia','Turkey','Taiwan','United Republic of Tanzania','Uganda','Ukraine','Uruguay','United States of America','Uzbekistan','Venezuela','Vietnam','Vanuatu','West Bank','Yemen','South Africa','Zambia','Zimbabwe']
+    main_countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
                 'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
         country_output = []
         for country in countries:
-            country_dict = {}
-            train_data = extract(csv, 2, ['major_type', 'style'], [majorType, style], country, time=[2009, 2018])
-            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
-            country_dict['State'] = country
-            country_dict['Unemployment'] = res_predict
-            country_output.append(country_dict)
+            if country in main_countries: 
+                country_dict = {}
+                train_data = extract(csv, 2, ['major_type', 'style'], [majorType, style], country, time=[2009, 2018])
+                res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+                country_dict['State'] = country
+                country_dict['Unemployment'] = res_predict
+                country_output.append(country_dict)
+            else:
+                country_dict = {}
+                country_dict['State'] = country
+                country_dict['Unemployment'] = 0
+                country_output.append(country_dict)
         country_csv_write(country_output)
 
 def entrance_3(majorColor, style):
     model = 'LSTM'
     csv = load_csv()
-    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+    countries = ['Afghanistan','Angola','Albania','United Arab Emirates','Argentina','Armenia','Antarctica','French Southern and Antarctic Lands','Australia','Austria','Azerbaijan','Burundi','Belgium','Benin','Burkina Faso','Bangladesh','Bulgaria','The Bahamas','Bosnia and Herzegovina','Belarus','Belize','Bolivia','Brazil','Brunei','Bhutan','Botswana','Central African Republic','Canada','Switzerland','Chile','China','Ivory Coast','Cameroon','Democratic Republic of the Congo','Republic of the Congo','Colombia','Costa Rica','Cuba','Northern Cyprus','Cyprus','Czech Republic','Germany','Djibouti','Denmark','Dominican Republic','Algeria','Ecuador','Egypt','Eritrea','Spain','Estonia','Ethiopia','Finland','Fiji','Falkland Islands','France','Gabon','United Kingdom','Georgia','Ghana','Guinea','Gambia','Guinea Bissau','Equatorial Guinea','Greece','Greenland','Guatemala','Guyana','Honduras','Croatia','Haiti','Hungary','Indonesia','India','Ireland','Iran','Iraq','Iceland','Israel','Italy','Jamaica','Jordan','Japan','Kazakhstan','Kenya','Kyrgyzstan','Cambodia','South Korea','Kosovo','Kuwait','Laos','Lebanon','Liberia','Libya','Sri Lanka','Lesotho','Lithuania','Luxembourg','Latvia','Morocco','Moldova','Madagascar','Mexico','Macedonia','Mali','Myanmar','Montenegro','Mongolia','Mozambique','Mauritania','Malawi','Malaysia','Namibia','New Caledonia','Niger','Nigeria','Nicaragua','Netherlands','Norway','Nepal','New Zealand','Oman','Pakistan','Panama','Peru','Philippines','Papua New Guinea','Poland','Puerto Rico','North Korea','Portugal','Paraguay','Qatar','Romania','Russia','Rwanda','Western Sahara','Saudi Arabia','Sudan','South Sudan','Senegal','Solomon Islands','Sierra Leone','El Salvador','Somaliland','Somalia','Republic of Serbia','Suriname','Slovakia','Slovenia','Sweden','Swaziland','Syria','Chad','Togo','Thailand','Tajikistan','Turkmenistan','East Timor','Trinidad and Tobago','Tunisia','Turkey','Taiwan','United Republic of Tanzania','Uganda','Ukraine','Uruguay','United States of America','Uzbekistan','Venezuela','Vietnam','Vanuatu','West Bank','Yemen','South Africa','Zambia','Zimbabwe']
+    main_countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
                 'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
         country_output = []
         for country in countries:
-            country_dict = {}
-            train_data = extract(csv, 2, ['major_color', 'style'], [majorColor, style], country, time=[2009, 2018])
-            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
-            country_dict['State'] = country
-            country_dict['Unemployment'] = res_predict
-            country_output.append(country_dict)
+            if country in main_countries: 
+                country_dict = {}
+                train_data = extract(csv, 2, ['major_color', 'style'], [majorColor, style], country, time=[2009, 2018])
+                res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+                country_dict['State'] = country
+                country_dict['Unemployment'] = res_predict
+                country_output.append(country_dict)
+            else:
+                country_dict = {}
+                country_dict['State'] = country
+                country_dict['Unemployment'] = 0
+                country_output.append(country_dict)
         country_csv_write(country_output)
     
 def entrance_4(majorColor, majorType ,style):
     model = 'LSTM'
     csv = load_csv()
-    countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
+    countries = ['Afghanistan','Angola','Albania','United Arab Emirates','Argentina','Armenia','Antarctica','French Southern and Antarctic Lands','Australia','Austria','Azerbaijan','Burundi','Belgium','Benin','Burkina Faso','Bangladesh','Bulgaria','The Bahamas','Bosnia and Herzegovina','Belarus','Belize','Bolivia','Brazil','Brunei','Bhutan','Botswana','Central African Republic','Canada','Switzerland','Chile','China','Ivory Coast','Cameroon','Democratic Republic of the Congo','Republic of the Congo','Colombia','Costa Rica','Cuba','Northern Cyprus','Cyprus','Czech Republic','Germany','Djibouti','Denmark','Dominican Republic','Algeria','Ecuador','Egypt','Eritrea','Spain','Estonia','Ethiopia','Finland','Fiji','Falkland Islands','France','Gabon','United Kingdom','Georgia','Ghana','Guinea','Gambia','Guinea Bissau','Equatorial Guinea','Greece','Greenland','Guatemala','Guyana','Honduras','Croatia','Haiti','Hungary','Indonesia','India','Ireland','Iran','Iraq','Iceland','Israel','Italy','Jamaica','Jordan','Japan','Kazakhstan','Kenya','Kyrgyzstan','Cambodia','South Korea','Kosovo','Kuwait','Laos','Lebanon','Liberia','Libya','Sri Lanka','Lesotho','Lithuania','Luxembourg','Latvia','Morocco','Moldova','Madagascar','Mexico','Macedonia','Mali','Myanmar','Montenegro','Mongolia','Mozambique','Mauritania','Malawi','Malaysia','Namibia','New Caledonia','Niger','Nigeria','Nicaragua','Netherlands','Norway','Nepal','New Zealand','Oman','Pakistan','Panama','Peru','Philippines','Papua New Guinea','Poland','Puerto Rico','North Korea','Portugal','Paraguay','Qatar','Romania','Russia','Rwanda','Western Sahara','Saudi Arabia','Sudan','South Sudan','Senegal','Solomon Islands','Sierra Leone','El Salvador','Somaliland','Somalia','Republic of Serbia','Suriname','Slovakia','Slovenia','Sweden','Swaziland','Syria','Chad','Togo','Thailand','Tajikistan','Turkmenistan','East Timor','Trinidad and Tobago','Tunisia','Turkey','Taiwan','United Republic of Tanzania','Uganda','Ukraine','Uruguay','United States of America','Uzbekistan','Venezuela','Vietnam','Vanuatu','West Bank','Yemen','South Africa','Zambia','Zimbabwe']
+    main_countries = ['China', 'Thailand', 'america', 'Japan', 'Korea', 'singapore', 'France', 'Germany',
                 'Italy', 'England', 'Canada', 'Russia', 'Brazil', 'Mexico', 'Australia']
     if model == 'LSTM':
         country_output = []
         for country in countries:
-            country_dict = {}
-            train_data = extract(csv, 3, ['major_color', 'major_type','style'], [majorColor, majorType, style], country, time=[2009, 2018])
-            res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
-            country_dict['State'] = country
-            country_dict['Unemployment'] = res_predict
-            country_output.append(country_dict)
+            if country in main_countries: 
+                country_dict = {}
+                train_data = extract(csv, 3, ['major_color', 'major_type','style'], [majorColor, majorType, style], country, time=[2009, 2018])
+                res_predict = LS(train_data, 'year_model', train_time=[2011, 2018])
+                country_dict['State'] = country
+                country_dict['Unemployment'] = res_predict
+                country_output.append(country_dict)
+            else:
+                country_dict = {}
+                country_dict['State'] = country
+                country_dict['Unemployment'] = 0
+                country_output.append(country_dict)
         country_csv_write(country_output)
     
 # if __name__ == '__main__':
